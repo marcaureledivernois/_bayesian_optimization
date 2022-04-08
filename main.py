@@ -107,4 +107,6 @@ if __name__ == "__main__":
     bopt.optimize()
 
 
-
+    pd.DataFrame(bopt.distances_).plot()
+    bopt.best_samples_['y'].plot()
+    bopt.best_samples_['ei'].plot()
