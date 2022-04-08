@@ -72,7 +72,36 @@ So, both have some significance. It is a trivial decision,
 traditional Random search or Grid search approach for parameter space as it takes a 
 middle ground. It helps to achieve the target more quickly with a small number of actual function calls.
 
+**In short, acquisition function uses “Exploration vs Exploitation” strategy to decide optimal 
+parameter search in an iterative manner. Inside these iterations, 
+surrogate model helps to get simulated output of the function. Any Bayesian Approach is 
+based on the concept of “Prior/Posterior” duo. Initial runs of the function as mentioned 
+in previous section are used as starting points or “Priors” and in each iteration, 
+these “Priors” are enriched with “Posterior” data points. After few iterations, 
+optimal data points are reached and the entire process stops there. We will see all 
+of these in action next.**
 
+## Complexity reduction
+
+Complexity reduction happens twice :
+
+1. BOPT avoids the actual function call and uses the Gaussian process as a proxy (except when absolutely needed : i.e. after a try of hyperparameters). 
+So, the trial with different points happens through the proxy Gaussian Process, 
+not the actual function. 
+
+2. BOPT is about proposing hyperparameters maximizing the acquisition function, it will give the right 
+direction where we should keep searching the parameter space 
+and avoid unnecessary blind exploration. 
+
+## Algorithm steps
+
+1. compute x,y initial values using the costly function
+2. .fit surrogate model (e.g. GaussianProcessRegressor) using x,y
+3. maximize expected improvement function by using the surrogate model (.predict)
+4. try x_max of step 3. in the costly function to get a new y
+5. if y of step 4. is better than previous y, store x_max and y_max
+6. append x_max and corresponding y to the set of initial values x,y
+7. repeat steps 2-6
 
 ## Credits
 
