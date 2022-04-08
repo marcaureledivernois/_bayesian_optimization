@@ -39,8 +39,40 @@ as it is very costly. (Apart from initial few runs)
 
 # How does it work?
 
-Bayesian approach is based on statistical modelling of the “blackbox” 
+Bayesian approach is based on statistical modelling of the "costly" 
 function and intelligent exploration of the parameter space.
+
+# Concepts
+
+1. Surrogate Model
+
+It is the statistical/probabilistic modelling of the “costly” function. 
+It works as a proxy to the later. For experimenting with different parameters, 
+this model is used to simulate function output instead of calling the actual costly function. 
+A Gaussian Process Regression (it is a multivariate Gaussian Stochastic process) is used as 
+“surrogate” in Bayesian Optimization.
+
+2. Acquisition Function
+
+It is a metric function which decides which parameter value that can return 
+the optimal value from the function. There are many variations of it. 
+We will work with the one called “Expected Improvement”.
+
+3. Exploration vs Exploitation
+
+It is typical strategy to compensate between local & global optimal values in the parameter space.
+While doing the parameter space exploration, many such local optimal data points 
+can be found where the function has high or low value. But, the process should 
+not stop there as more optimal values may be there in some other area. It is known as 
+“Exploration”. On the other hand, importance should also be given to the points those 
+are returning optimal (high or low) values from the function consistently. It is “Exploitation”. 
+So, both have some significance. It is a trivial decision, 
+“when to explore for more optimal data points in different locations or when to exploit 
+& go in the same direction”. This is the area where Bayesian Optimization beats 
+traditional Random search or Grid search approach for parameter space as it takes a 
+middle ground. It helps to achieve the target more quickly with a small number of actual function calls.
+
+
 
 ## Credits
 
